@@ -1,0 +1,63 @@
+on:
+  # Manual trigger workflow
+  workflow_dispatch:
+      # Inputs the workflow accepts.
+      # inputs:
+      #     environment:
+      #         description: "Environment to run the workflow"
+      #         type: environment
+      #         required: true
+env:
+  # Credentials for deployment to AWS
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  # S3 bucket for Terraform state
+  ECR_REPOSITORY_AUTH: auth-srv
+  ECR_REPOSITORY_CLIENT: client-srv
+  ECR_REPOSITORY_TODO: todo-srv
+  AWS_REGION: us-east-2
+  EKS_CLUSTER: todo-eks
+jobs:
+  DEPLOY_TO_EKS:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Get Kube config file
+        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION}}. --name ${{ env.EKS_CLUSTER }}
+
+      - name: Print config file
+        run: cat ~/.kube/config
+
+      - name: Login to ECR
+        run: kubectl create secret docker-registry regcred --docker-server=${{ secrets.REGISTRY }} --docker-username=AWS --docker-password=$(aws ecr get-login-password)
+
+      - name: Deploy Helm
+        uses: bitovi/github-actions-deploy-eks-helm@v1.2.8
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+          cluster-name: ${{ env.EKS_CLUSTER }}
+          chart-path: helm/todocharts
+          namespace: default
+          values: |
+            clientimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_CLIENT }}, 
+            authimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_AUTH}}, 
+            todoimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_TODO}},
+            AWS_IAM_DYNAMO_DB_ACCESS_KEY=${{ secrets.AWS_IAM_DYNAMO_DB_ACCESS_KEY }},
+            AWS_IAM_DYNAMO_DB_SECRET_KEY=${{ secrets.AWS_IAM_DYNAMO_DB_SECRET_KEY }},
+            JWT_SECRET=${{ secrets.JWT_SECRET }},
+            AWS_DYNAMO_DB_REGION=${{ secrets.AWS_DYNAMO_DB_REGION }},
+            RDS_POSTGRES_DB_URL=${{ secrets.RDS_POSTGRES_DB_URL }},
+            RDS_POSTGRES_DB_USERNAME=${{ secrets.RDS_POSTGRES_DB_USERNAME }},
+            RDS_POSTGRES_DB_PASSWORD=${{ secrets.RDS_POSTGRES_DB_PASSWORD }}
+          name: todo-stack
