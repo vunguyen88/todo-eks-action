@@ -41,7 +41,7 @@ jobs:
         run: kubectl create secret docker-registry regcred \
           --docker-server=${{ secrets.REGISTRY }} \
           --docker-username=AWS \
-          --docker-password=$(aws ecr get-login-password --region us-east-2)
+          --docker-password=$(aws ecr get-login-password)
         # uses: aws-actions/amazon-ecr-login@v2
         # with:
         #   registry: 715514482422.dkr.ecr.us-east-2.amazonaws.com
@@ -60,6 +60,7 @@ jobs:
           values: |
             clientimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_CLIENT }}, 
             authimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_AUTH}}, 
+            apptag=latest,
             todoimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_TODO}},
             AWS_IAM_DYNAMO_DB_ACCESS_KEY=${{ secrets.AWS_IAM_DYNAMO_DB_ACCESS_KEY }},
             AWS_IAM_DYNAMO_DB_SECRET_KEY=${{ secrets.AWS_IAM_DYNAMO_DB_SECRET_KEY }},
