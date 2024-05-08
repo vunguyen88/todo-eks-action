@@ -63,9 +63,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
           cluster-name: ${{ env.EKS_CLUSTER }}
+          name: todo
           chart-path: helm/todocharts
           namespace: default
-          name: todo-eks
           values: |
             clientimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_CLIENT }}, 
             authimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_AUTH}}, 
