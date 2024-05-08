@@ -65,6 +65,7 @@ jobs:
           cluster-name: ${{ env.EKS_CLUSTER }}
           chart-path: helm/todocharts
           namespace: default
+          name: todo-stack
           values: |
             clientimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_CLIENT }}, 
             authimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_AUTH}}, 
@@ -77,4 +78,4 @@ jobs:
             RDS_POSTGRES_DB_URL=${{ secrets.RDS_POSTGRES_DB_URL }},
             RDS_POSTGRES_DB_USERNAME=${{ secrets.RDS_POSTGRES_DB_USERNAME }},
             RDS_POSTGRES_DB_PASSWORD=${{ secrets.RDS_POSTGRES_DB_PASSWORD }}
-          name: todo-stack
+          
