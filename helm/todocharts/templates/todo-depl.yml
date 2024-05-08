@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: todo-srv
-        image: {{ .Values.todoimage}}:latest
+        image: 715514482422.dkr.ecr.us-east-2.amazonaws.com/todo-srv:latest
         ports:
         - name: todo-srv-port
           containerPort: 8001
