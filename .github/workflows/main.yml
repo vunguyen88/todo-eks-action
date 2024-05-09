@@ -42,15 +42,15 @@ jobs:
       - name: Print config file
         run: cat ~/.kube/config
 
-      - name: Create secret in Kubnernetes to access ECR
-        run: kubectl create secret docker-registry todo-eks \
-              --docker-server=715514482422.dkr.ecr.us-east-2.amazonaws.com \
-              --docker-username=AWS \
-              --docker-password=$(aws ecr get-login-password)
+      # - name: Create secret in Kubnernetes to access ECR
+      #   run: kubectl create secret docker-registry todo-eks \
+      #         --docker-server=715514482422.dkr.ecr.us-east-2.amazonaws.com \
+      #         --docker-username=AWS \
+      #         --docker-password=$(aws ecr get-login-password)
 
       
-      # - name: Login to AWS ECR
-      #   run: aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 715514482422.dkr.ecr.us-east-2.amazonaws.com
+      - name: Login to AWS ECR
+        run: aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 715514482422.dkr.ecr.us-east-2.amazonaws.com
 
       # - name: Package Helm Chart
       #   run: |
