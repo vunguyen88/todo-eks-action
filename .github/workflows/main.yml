@@ -48,7 +48,8 @@ jobs:
       #         --docker-username=AWS \
       #         --docker-password=$(aws ecr get-login-password)
 
-      
+      - name: CMD
+        run: ls helm/todocharts
       - name: Login to AWS ECR
         run: aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 715514482422.dkr.ecr.us-east-2.amazonaws.com
 
@@ -63,24 +64,24 @@ jobs:
       #     helm repo add <Your Helm Repo Name> <Your Helm Repo URL>
       #     helm push <Your Helm Chart Name>-<Your Chart Version>.tgz <Your Helm Repo Name>
       
-      - name: Deploy Helm
-        uses: bitovi/github-actions-deploy-eks-helm@v1.2.9
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-          cluster-name: ${{ env.EKS_CLUSTER }}
-          chart-path: helm/todocharts
-          namespace: default
-          name: "todo-eks"
-          values: clientimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_CLIENT }}, \
-            authimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_AUTH}}, \
-            todoimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_TODO}}, \
-            AWS_IAM_DYNAMO_DB_ACCESS_KEY=${{ secrets.AWS_IAM_DYNAMO_DB_ACCESS_KEY }}, \
-            AWS_IAM_DYNAMO_DB_SECRET_KEY=${{ secrets.AWS_IAM_DYNAMO_DB_SECRET_KEY }}, \
-            JWT_SECRET=${{ secrets.JWT_SECRET }}, \
-            AWS_DYNAMO_DB_REGION=${{ secrets.AWS_DYNAMO_DB_REGION }}, \
-            RDS_POSTGRES_DB_URL=${{ secrets.RDS_POSTGRES_DB_URL }}, \
-            RDS_POSTGRES_DB_USERNAME=${{ secrets.RDS_POSTGRES_DB_USERNAME }}, \
-            RDS_POSTGRES_DB_PASSWORD=${{ secrets.RDS_POSTGRES_DB_PASSWORD }}
+      # - name: Deploy Helm
+      #   uses: bitovi/github-actions-deploy-eks-helm@v1.2.9
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ${{ env.AWS_REGION }}
+      #     cluster-name: ${{ env.EKS_CLUSTER }}
+      #     chart-path: helm/todocharts
+      #     namespace: default
+      #     name: "todo-eks"
+      #     values: clientimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_CLIENT }}, \
+      #       authimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_AUTH}}, \
+      #       todoimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_TODO}}, \
+      #       AWS_IAM_DYNAMO_DB_ACCESS_KEY=${{ secrets.AWS_IAM_DYNAMO_DB_ACCESS_KEY }}, \
+      #       AWS_IAM_DYNAMO_DB_SECRET_KEY=${{ secrets.AWS_IAM_DYNAMO_DB_SECRET_KEY }}, \
+      #       JWT_SECRET=${{ secrets.JWT_SECRET }}, \
+      #       AWS_DYNAMO_DB_REGION=${{ secrets.AWS_DYNAMO_DB_REGION }}, \
+      #       RDS_POSTGRES_DB_URL=${{ secrets.RDS_POSTGRES_DB_URL }}, \
+      #       RDS_POSTGRES_DB_USERNAME=${{ secrets.RDS_POSTGRES_DB_USERNAME }}, \
+      #       RDS_POSTGRES_DB_PASSWORD=${{ secrets.RDS_POSTGRES_DB_PASSWORD }}
           
