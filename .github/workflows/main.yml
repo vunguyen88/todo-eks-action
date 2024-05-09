@@ -58,6 +58,9 @@ jobs:
         run: |
           helm package helm/todocharts
           helm repo index --merge index.yaml .
+
+      - name: Uninstall if chart exist
+        run: helm uninstall todocharts
         
       - name: Install Helm chart
         run: helm install --replace todocharts helm/todocharts --version 0.1.0
