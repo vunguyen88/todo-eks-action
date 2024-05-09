@@ -60,7 +60,7 @@ jobs:
           helm repo index --merge index.yaml .
         
       - name: Install Helm chart
-        run: helm install todocharts helm/todocharts --version 0.1.0
+        run: helm upgrade --install todocharts helm/todocharts --version 0.1.0
       
       # - name: Push Helm Chart to Amazon EKS
       #   run: |
