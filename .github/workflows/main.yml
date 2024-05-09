@@ -54,10 +54,10 @@ jobs:
       - name: Login to AWS ECR
         run: aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 715514482422.dkr.ecr.us-east-2.amazonaws.com
 
-      - name: Package Helm Chart
-        run: |
-          helm package helm/todocharts
-          helm repo index --merge index.yaml .
+      # - name: Package Helm Chart
+      #   run: |
+      #     helm package helm/todocharts
+      #     helm repo index --merge index.yaml .
 
       - name: Uninstall if chart exist
         run: helm uninstall todocharts
