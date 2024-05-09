@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
       - name: client-srv
-        image: {{ .Values.clientimage}}:latest
+        image: 715514482422.dkr.ecr.us-east-2.amazonaws.com/client-srv
+        tag: "latest"
         ports:
         - name: client-srv-port
           containerPort: 80

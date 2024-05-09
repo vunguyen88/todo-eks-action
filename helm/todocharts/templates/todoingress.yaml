@@ -7,7 +7,7 @@ annotations:
 spec:
   ingressClassName: nginx
   rules:
-    - host: https://846CB92B94F1418542EFF159E5ECF17E.gr7.us-east-2.eks.amazonaws.com
+    - host: https://B10E1B20A65C12D7BF5CBE2F46C83484.gr7.us-east-2.eks.amazonaws.com
       http:
         paths:
           - path: /auth/?(.*)

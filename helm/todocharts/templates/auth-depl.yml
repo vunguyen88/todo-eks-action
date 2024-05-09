@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
       - name: auth-srv
-        image: {{ .Values.authimage }}:latest
+        image: 715514482422.dkr.ecr.us-east-2.amazonaws.com/auth-srv
+        tag: "latest"
         ports:
         - name: auth-srv-port
           containerPort: 8000
