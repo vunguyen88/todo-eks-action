@@ -43,7 +43,7 @@ jobs:
         run: cat ~/.kube/config
 
       - name: Create secret in Kubnernetes to access ECR
-        run: create secret docker-registry todo-eks \
+        run: kubectl create secret docker-registry todo-eks \
               --docker-server=715514482422.dkr.ecr.us-east-2.amazonaws.com \
               --docker-username=AWS \
               --docker-password=$(aws ecr get-login-password)
