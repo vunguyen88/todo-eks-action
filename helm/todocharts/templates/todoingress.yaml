@@ -1,9 +1,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-name: todo-ingress-service
-annotations:
-  nginx.ingress.kubernetes.io/use-regex: "true"
+  name: todo-ingress-service
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
   rules:
