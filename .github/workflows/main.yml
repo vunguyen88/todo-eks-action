@@ -72,7 +72,7 @@ jobs:
           cluster-name: ${{ env.EKS_CLUSTER }}
           chart-path: helm/todocharts
           namespace: default
-          name: todo-eks
+          name: "todo-eks"
           values: clientimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_CLIENT }}, \
             authimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_AUTH}}, \
             todoimage=${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY_TODO}}, \
