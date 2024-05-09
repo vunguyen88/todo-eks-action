@@ -24,23 +24,23 @@ jobs:
       - name: Code checkout
         uses: actions/checkout@v4
 
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: ${{ env.AWS_REGION }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
 
-      # - name: Install Helm
-      #   uses: azure/setup-helm@v1
-      #   with:
-      #     version: 'latest'
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: 'latest'
 
-      # - name: Get Kube config file
-      #   run: aws eks update-kubeconfig --region ${{ env.AWS_REGION}} --name ${{ env.EKS_CLUSTER }}
+      - name: Get Kube config file
+        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION}} --name ${{ env.EKS_CLUSTER }}
 
-      # - name: Print config file
-      #   run: cat ~/.kube/config
+      - name: Print config file
+        run: cat ~/.kube/config
 
       # - name: Create secret in Kubnernetes to access ECR
       #   run: kubectl create secret docker-registry todo-eks \
@@ -50,13 +50,17 @@ jobs:
 
       - name: CMD
         run: ls helm/todocharts
+
       - name: Login to AWS ECR
         run: aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 715514482422.dkr.ecr.us-east-2.amazonaws.com
 
-      # - name: Package Helm Chart
-      #   run: |
-      #     helm package helm/todocharts
-      #     helm repo index --merge index.yaml .
+      - name: Package Helm Chart
+        run: |
+          helm package helm/todocharts
+          helm repo index --merge index.yaml .
+        
+      - name: Install Helm chart
+        run: helm install todocharts helm/todocharts --version 0.1.0
       
       # - name: Push Helm Chart to Amazon EKS
       #   run: |
