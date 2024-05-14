@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    # nginx.ingress.kubernetes.io/enable-cors: "true"
+    # nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    # nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, OPTIONS"
+    # nginx.ingress.kubernetes.io/cors-allow-headers: "Authorization,Content-Type"
+    # nginx.ingress.kubernetes.io/cors-max-age: "1728000"
+
+  #   nginx.ingress.kubernetes.io/rewrite-target: /$1
+#   nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: a2ca1515093624f818c543e8bc1aa1ca-02e22504db4a926c.elb.us-east-2.amazonaws.com
+    # - host: todoeks.local
+      http:
+        paths:
+          # - path: /auth/?(.*)
+          - path: /auth
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-clusterip-svc
+                port: 
+                  number: 8000
+          # - path: /todos/?(.*)
+          - path: /todos
+            pathType: Prefix
+            backend:
+              service:
+                name: todo-clusterip-svc
+                port: 
+                  number: 8001
+                  # - path: /?(.*)
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: client-clusterip-svc
+                port:
+                  number: 3000
+          
