@@ -19,7 +19,7 @@ env:
   AWS_REGION: us-east-2
   EKS_CLUSTER: todo-eks
 jobs:
-  DEPLOY_TO_EKS:
+  CREATE_KUBE_CONFIG_AND_INGRESS_SERVICE:
     runs-on: ubuntu-latest
     steps:
       - name: Code checkout
@@ -50,6 +50,10 @@ jobs:
       - name: Create Ingress service
         run: kubectl apply -f k8s/ingress-svc.yml
 
+  DEPLOY_CLIENT_TO_EKS:
+    needs: CREATE_KUBE_CONFIG_AND_INGRESS_SERVICE
+    runs-on: ubuntu-latest
+    steps:
       - name: Create client deployment
         run: kubectl apply -f k8s/client-depl.yml
 
@@ -59,23 +63,23 @@ jobs:
       - name: Create client NodePort service
         run: kubectl apply -f k8s/client-svc.yml
 
-      - name: Create auth deployment
-        run: kubectl apply -f k8s/auth-depl.yml
+      # - name: Create auth deployment
+      #   run: kubectl apply -f k8s/auth-depl.yml
 
-      - name: Create auth ClusterIp service
-        run: kubectl apply -f k8s/auth-clusterip-svc.yml
+      # - name: Create auth ClusterIp service
+      #   run: kubectl apply -f k8s/auth-clusterip-svc.yml
 
-      - name: Create auth NodePort service
-        run: kubectl apply -f k8s/auth-svc.yml
+      # - name: Create auth NodePort service
+      #   run: kubectl apply -f k8s/auth-svc.yml
 
-      - name: Create todo deployment
-        run: kubectl apply -f k8s/todo-depl.yml
+      # - name: Create todo deployment
+      #   run: kubectl apply -f k8s/todo-depl.yml
 
-      - name: Create todo ClusterIp service
-        run: kubectl apply -f k8s/todo-clusterip-svc.yml
+      # - name: Create todo ClusterIp service
+      #   run: kubectl apply -f k8s/todo-clusterip-svc.yml
 
-      - name: Create todo NodePort service
-        run: kubectl apply -f k8s/todo-svc.yml
+      # - name: Create todo NodePort service
+      #   run: kubectl apply -f k8s/todo-svc.yml
       # - name: Login to ECR
       #   run: aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 715514482422.dkr.ecr.us-east-2.amazonaws.com
 
