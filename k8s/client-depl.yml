@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-depl
+  # labels:
+  #   app: client-srv    
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+      - name: client
+        # image: 715514482422.dkr.ecr.us-east-2.amazonaws.com/client-srv:latest
+        image: vunguyen88/todoeks-client
+        # env:
+        # - name: REACT_APP_AUTH_SERVICE_DOMAIN
+        #   value: "http://abac31723c1244dee83616626f021eda-d992b1b3f3b76a72.elb.us-east-2.amazonaws.com/auth/"
+        ports:
+          - name: client
+            containerPort: 3000
