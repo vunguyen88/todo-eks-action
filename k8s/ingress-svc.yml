@@ -15,7 +15,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: a06f89699f28d4407829d1f607879e3a-bca299343edc3085.elb.us-east-2.amazonaws.com
+    - host: a0cc8e065a5cc4e0ab0630e69a9cf945-99f1607da881a1a5.elb.us-east-2.amazonaws.com
     # - host: todoeks.local
       http:
         paths:
