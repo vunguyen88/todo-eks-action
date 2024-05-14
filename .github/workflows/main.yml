@@ -47,6 +47,12 @@ jobs:
       - name: Create Postgres db password secret.
         run: kubectl create secret generic pgpassword --from-literal=postgres_db_password=${{ secrets.RDS_POSTGRES_DB_PASSWORD }}
 
+      - name: Create JWT secret.
+        run: kubectl create secret generic jwt --from-literal=jwt_secret=${{ secrets.JWT_SECRET }}
+
+      - name: Create Postgres db url secret.
+        run: kubectl create secret generic pgurl --from-literal=postgres_db_url=${{ secrets.RDS_POSTGRES_DB_URL }}
+
       - name: Create Ingress service
         run: kubectl apply -f k8s/ingress-svc.yml
 
