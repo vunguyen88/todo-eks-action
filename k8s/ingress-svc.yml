@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: ingress-service
   annotations:
-    nginx.ingress.kubernetes.io/use-regex: "true"
+    # nginx.ingress.kubernetes.io/use-regex: "true"
     # nginx.ingress.kubernetes.io/enable-cors: "true"
     # nginx.ingress.kubernetes.io/cors-allow-origin: "*"
     # nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, OPTIONS"
@@ -15,7 +15,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: a2ca1515093624f818c543e8bc1aa1ca-02e22504db4a926c.elb.us-east-2.amazonaws.com
+    - host: a06f89699f28d4407829d1f607879e3a-bca299343edc3085.elb.us-east-2.amazonaws.com
     # - host: todoeks.local
       http:
         paths:
