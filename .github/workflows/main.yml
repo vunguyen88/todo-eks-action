@@ -47,6 +47,12 @@ jobs:
       - name: Create Postgres db password secret.
         run: kubectl create secret generic pgpassword --from-literal=postgres_db_password=${{ secrets.RDS_POSTGRES_DB_PASSWORD }}
 
+      - name: Create Auth Service Access Key secret.
+        run: kubectl create secret generic authserviceaccesskey --from-literal=auth_service_access_key=${{ secrets.AWS_IAM_AUTH_SERVICE_ACCESS_KEY }}
+        
+      - name: Create Auth Service Secret Key secret.
+        run: kubectl create secret generic authservicesecretkey --from-literal=auth_service_secret_key=${{ secrets.AWS_IAM_AUTH_SERVICE_SECRET_KEY }}
+        
       - name: Create JWT secret.
         run: kubectl create secret generic jwt --from-literal=jwt_secret=${{ secrets.JWT_SECRET }}
 
