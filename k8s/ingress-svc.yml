@@ -16,7 +16,7 @@ spec:
   ingressClassName: nginx
   rules:
     # For deployment, using dns value in load balancer
-    - host: abfa715c7b99541fda31a68106e3e2f5-aaba7ebac0a31bd9.elb.us-east-2.amazonaws.com
+    - host: ad893acb2a14f4b159c48bce29de83c3-3ce4b24061a0d100.elb.us-east-2.amazonaws.com
     # - host: todoeks.local
       http:
         paths:
